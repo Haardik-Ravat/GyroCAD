@@ -13,25 +13,28 @@ app.listen(port, () => {
 });
 
 const responseData = {
-  w: " ",
-  x: " ",
-  y: " ",
-  z: " ",
+  accx: " ",
+  accy: " ",
+  accz: " ",
+  gyrx: " ",
+  gyry: " ",
+  gyrz: " ",
 };
 
 const wss = new WebSocket.Server({ port: 8080 });
-
 wss.on("connection", function connection(ws) {
   console.log("Client connected");
 
   ws.on("message", function incoming(data) {
     data = data.toString();
     var jsonObject = JSON.parse(data);
-    // console.log(jsonObject[0]);
-    responseData.w = jsonObject[0];
-    responseData.x = jsonObject[1];
-    responseData.y = jsonObject[2];
-    responseData.z = jsonObject[3];
+    // console.log(data);
+    responseData.accx = jsonObject[0];
+    responseData.accy = jsonObject[1];
+    responseData.accz = jsonObject[2];
+    responseData.gyrx = jsonObject[3];
+    responseData.gyry = jsonObject[4];
+    responseData.gyrz = jsonObject[5];
   });
 
   ws.on("close", function close() {

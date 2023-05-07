@@ -14,18 +14,75 @@ const geometry = new THREE.BoxGeometry(1, 1, 1);
 const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
 const cube = new THREE.Mesh(geometry, material);
 scene.add(cube);
+// const dotSize = 0.2; // Size of the dot
+// const dotGeometry = new THREE.BoxGeometry(dotSize, dotSize, 0);
+// const dotMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000 });
+// const cube = new THREE.Mesh(dotGeometry, dotMaterial);
+// scene.add(cube);
 
 camera.position.z = 5;
-const rotationQuaternion = new THREE.Quaternion();
-function animate(x, y, z, w) {
-  // requestAnimationFrame(animate);
-  rotationQuaternion.set(x, y, z, w);
-  cube.quaternion.copy(rotationQuaternion);
+let gyroData;
+let accelData;
 
-  // cube.translateZ = x;
-  // cube.rotation.y += 0.001;
-  // cube.rotation.z += 0.001;
+function animate() {
+  requestAnimationFrame(animate);
   renderer.render(scene, camera);
+}
+
+let prevTime = performance.now();
+let cubeVelocity = new THREE.Vector3();
+let cubeRotation = new THREE.Vector3();
+
+function updateCubeOrientation() {
+  if (gyroData && accelData) {
+    const alpha = gyroData[0];
+    const beta = gyroData[1];
+    const gamma = gyroData[2];
+
+    const x = accelData[0];
+    const y = accelData[1];
+    const z = accelData[2];
+
+    const time = performance.now();
+    const deltaTime = (time - prevTime) / 1000;
+    prevTime = time;
+
+    if (Math.abs(alpha * deltaTime) > 0.1) cube.rotation.x += alpha * deltaTime;
+    if (Math.abs(beta * deltaTime) > 0.1) cube.rotation.y += beta * deltaTime;
+    if (Math.abs(gamma * deltaTime) > 0.1) cube.rotation.z += gamma * deltaTime;
+  }
+}
+
+function updateCubeMotion() {
+  if (gyroData && accelData) {
+    const alpha = gyroData[0];
+    const beta = gyroData[1];
+    const gamma = gyroData[2];
+
+    const x = accelData[0];
+    const y = accelData[1];
+    const z = accelData[2];
+
+    const time = performance.now();
+    const deltaTime = (time - prevTime) / 1000;
+    prevTime = time;
+
+    if (Math.abs(x) > 1) {
+      cube.position.x += -x * deltaTime;
+      let t = cube.position.x - x * deltaTime;
+      if (t >= 6.23) cube.position.x = 6.23;
+      else if (t <= -6.31) cube.position.x = -6.31;
+      else cube.position.x = t;
+    }
+    if (Math.abs(y) > 1) {
+      let t = cube.position.y + y * deltaTime;
+      if (t >= 3) cube.position.y = 3;
+      else if (t <= -2.83) cube.position.y = -2.83;
+      else cube.position.y = t;
+    }
+
+    console.log(cube.position.x, cube.position.y);
+  }
 }
 
 setInterval(() => {
@@ -34,7 +91,11 @@ setInterval(() => {
       return data.json();
     })
     .then((axis) => {
-      console.log(axis);
-      animate(axis.x, axis.y, axis.z, axis.w);
+      accelData = [axis["accx"], axis["accy"], axis["accz"]];
+      gyroData = [axis["gyrx"], axis["gyry"], axis["gyrz"]];
+
+      updateCubeOrientation();
+      // updateCubeOrientation();
+      animate();
     });
-}, 10);
+}, 100);
