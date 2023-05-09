@@ -10,14 +10,15 @@ const renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
-
+// const geometry = new THREE.BoxGeometry(1, 1, 1);
+// const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+// const cube = new THREE.Mesh(geometry, material);
+// scene.add(cube);
 const dotSize = 0.2; // Size of the dot
 const dotGeometry = new THREE.BoxGeometry(dotSize, dotSize, 0);
 const dotMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000 });
 const cube = new THREE.Mesh(dotGeometry, dotMaterial);
 scene.add(cube);
-
-
 
 camera.position.z = 5;
 let gyroData;
@@ -75,8 +76,8 @@ setInterval(() => {
       accelData = [axis["accx"], axis["accy"], axis["accz"]];
       gyroData = [axis["gyrx"], axis["gyry"], axis["gyrz"]];
 
-      updateCubeMotion();
-      // updateCubeOrientation();
+      //updateCubeOrientation();
+       updateCubeMotion();
       animate();
     });
 }, 100);
