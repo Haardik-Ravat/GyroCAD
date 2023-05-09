@@ -26,7 +26,14 @@ class _Start_PageState extends State<Start_Page> {
               children: <Widget>[
                 logoWidget("images/logo1.jpg"),
                 const Text(
-                  "GyroCAD"
+                  "GyroCAD",
+                    style: const TextStyle(
+                    color: Colors.black, fontWeight: FontWeight.bold, fontSize: 40),
+                ),
+                const Text(
+                  "Get Gyroscopic & Accelerometer Data",
+                  style: const TextStyle(
+                      color: Colors.black54,  fontSize: 15),
                 ),
                 firebaseUIButton(context, "Using WebSocket IP", () {
                   Navigator.push(context, MaterialPageRoute(builder: (context) => const Instructions()));

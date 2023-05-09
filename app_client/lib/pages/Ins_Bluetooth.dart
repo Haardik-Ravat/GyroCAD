@@ -12,6 +12,10 @@ class _Ins_BluetoothState extends State<Ins_Bluetooth> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Bluetooth Instructions'),
+        backgroundColor: Colors.blueGrey,
+      ),
       body: Container(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
