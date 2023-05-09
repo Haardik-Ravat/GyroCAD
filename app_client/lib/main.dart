@@ -1,3 +1,4 @@
+import 'package:app_client/pages/start.dart';
 import 'package:flutter/material.dart';
 import './pages/home/home.dart';
 
@@ -9,7 +10,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(primarySwatch: Colors.blue),
-      home: HomeView(),
+      home: Start_Page(),
+
     );
   }
 }

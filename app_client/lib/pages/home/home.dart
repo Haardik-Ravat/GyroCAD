@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:io';
-
 import 'package:web_socket_channel/io.dart';
 import 'package:flutter/material.dart';
 import 'package:sensors/sensors.dart';
@@ -23,7 +22,7 @@ class _HomeViewState extends State<HomeView> {
   StreamSubscription<GyroscopeEvent>? _gyroStream;
 
   TextEditingController _ipEditingController = TextEditingController();
-  TextEditingController _portEditingController = TextEditingController();
+  // TextEditingController _portEditingController = TextEditingController();
 
   bool sensorIsActivated = false;
 
@@ -45,13 +44,12 @@ class _HomeViewState extends State<HomeView> {
   }
 
   Future<void> _connectSocketChannel() async {
-    if (_ipEditingController.text.isEmpty ||
-        _portEditingController.text.isEmpty) {
+    if (_ipEditingController.text.isEmpty) {
       return;
     }
 
     var URL =
-        'ws://${_ipEditingController.text}:${_portEditingController.text}';
+        'ws://${_ipEditingController.text}:8080';
 
     try {
       WebSocket.connect(URL).then((ws) {
@@ -128,19 +126,20 @@ class _HomeViewState extends State<HomeView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Sensor Example'),
+        title: const Text('GyroCAD'),
+        backgroundColor: Colors.blueGrey,
       ),
       body: Container(
-        padding: EdgeInsets.all(20.0),
+        padding: const EdgeInsets.all(20.0),
         child: Column(
           children: <Widget>[
-            Padding(padding: EdgeInsets.only(bottom: 40.0)),
+            const Padding(padding: EdgeInsets.only(bottom: 40.0)),
             customTextField(
-                _ipEditingController, 'IP Server Example: 192.168.0.1'),
-            Padding(padding: EdgeInsets.only(bottom: 5.0)),
-            customTextField(
-                _portEditingController, 'PORT Server Example: 8080'),
-            Padding(padding: EdgeInsets.only(bottom: 20.0)),
+                _ipEditingController, 'Put the Web Socket IP here'),
+            const Padding(padding: EdgeInsets.only(bottom: 5.0)),
+            // customTextField(
+            //     _portEditingController, 'PORT Server Example: 8080'),
+            const Padding(padding: EdgeInsets.only(bottom: 20.0)),
             OutlinedButton(
               child: Text(
                   !_socketIsConnected ? 'Connect Server' : 'Disconnect Server'),
@@ -156,10 +155,10 @@ class _HomeViewState extends State<HomeView> {
                 }
               },
             ),
-            Padding(padding: EdgeInsets.only(bottom: 20.0)),
+            const Padding(padding: EdgeInsets.only(bottom: 20.0)),
             Text(_status),
-            Padding(padding: EdgeInsets.only(bottom: 20.0)),
-            Padding(padding: EdgeInsets.only(bottom: 10.0)),
+            const Padding(padding: EdgeInsets.only(bottom: 20.0)),
+            const Padding(padding: EdgeInsets.only(bottom: 10.0)),
             OutlinedButton(
               child: Text(!sensorIsActivated ? 'Start' : 'Stop'),
               onPressed: () {
@@ -186,12 +185,12 @@ class _HomeViewState extends State<HomeView> {
     return TextField(
       controller: controller,
       decoration: InputDecoration(
-        border: OutlineInputBorder(
+        border: const OutlineInputBorder(
           borderRadius: BorderRadius.all(Radius.circular(6.0)),
         ),
         filled: true,
         fillColor: Colors.white60,
-        contentPadding: EdgeInsets.all(15.0),
+        contentPadding: const EdgeInsets.all(15.0),
         hintText: text,
       ),
     );
