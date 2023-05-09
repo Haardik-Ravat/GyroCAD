@@ -1,3 +1,5 @@
+import 'package:app_client/pages/Ins_Bluetooth.dart';
+import 'package:app_client/pages/bluetooth.dart';
 import 'package:flutter/material.dart';
 import 'package:app_client/pages/widgets.dart';
 import 'package:app_client/pages/instructions.dart';
@@ -26,8 +28,11 @@ class _Start_PageState extends State<Start_Page> {
                 const Text(
                   "GyroCAD"
                 ),
-                firebaseUIButton(context, "Getting Started", () {
+                firebaseUIButton(context, "Using WebSocket IP", () {
                   Navigator.push(context, MaterialPageRoute(builder: (context) => const Instructions()));
+                }),
+                firebaseUIButton(context, "Using Bluetooth", () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => const Ins_Bluetooth()));
                 }),
               ],
 
