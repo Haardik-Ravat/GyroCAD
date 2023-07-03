@@ -40,7 +40,7 @@ Traditionally users make use of a mouse or keyboard to control objects, which is
 4. Data Processing :
    - The data should be processed at the front end to extract meaningful information about the mobile or smartwatch movements.
 
-![diagramf.png](./assets/diagramf.png)
+
 
 # Implementation
 
